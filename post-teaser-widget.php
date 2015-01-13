@@ -318,11 +318,21 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	}
 
 	/**
+	 * Check for widget title
+	 *
+	 * @return bool
+	 */
+	public function has_title(&$instance)
+	{
+		return !empty($instance['title']);
+	}
+
+	/**
 	 * Print widget title
 	 *
 	 * @return void
 	 */
-	public function the_title($instance)
+	public function the_title(&$instance)
 	{
 		echo $instance['title'];
 	}
@@ -332,9 +342,19 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	public function the_title_attribute($instance)
+	public function the_title_attribute(&$instance)
 	{
 		the_title_attribute();
+	}
+
+	/**
+	 * Check for widget teaser
+	 *
+	 * @return bool
+	 */
+	public function has_teaser(&$instance)
+	{
+		return !empty($instance['teaser']);
 	}
 
 	/**
@@ -342,7 +362,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	public function the_teaser($instance)
+	public function the_teaser(&$instance)
 	{
 		echo $instance['teaser'];
 	}

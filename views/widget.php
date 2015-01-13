@@ -16,7 +16,7 @@ echo $args['before_widget'];
 <?php if ($post_query->have_posts()) : ?>
 <?php while ($post_query->have_posts()) : $post_query->the_post(); ?>
 
-<?php if (!empty($instance['title'])) : ?>
+<?php if ($this->has_title($instance)) : ?>
 <?php echo $args['before_title']; ?>
 <a href="<?php $this->the_permalink($instance); ?>" title="<?php the_title_attribute(); ?>"><?php $this->the_title($instance); ?></a>;
 <?php echo $args['after_title']; ?>
@@ -27,9 +27,11 @@ echo $args['before_widget'];
 <a href="<?php $this->the_permalink($instance); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('medium'); ?></a>
 </figure>
 <?php endif; ?>
+<?php if ($this->has_teaser($instance)) : ?>
 <div class="pt-widget-teaser">
 <?php $this->the_teaser($instance); ?>
 </div>
+<?php endif; ?>
 
 <?php endwhile; ?>
 <?php wp_reset_postdata(); ?>
