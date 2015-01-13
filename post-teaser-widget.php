@@ -97,16 +97,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
     /**
      * @since    1.0.0
      *
-     * @var array - of strings
+     * @var array - of post type objects
 	 */
 	protected $post_types;
-
-    /**
-     * @since    1.0.0
-     *
-     * @var array - of strings
-	 */
-	protected $post_types_names;
 
     /**
      * @since    1.0.0
@@ -202,7 +195,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['post_type'] = apply_filters($this->get_widget_slug() . '_post_type', $instance['post_type'], $args, $instance);
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
-		include ($this->get_template('widget', 'none'));
+		include ($this->get_template('widget', $instance['post_type']));
     }
 
     /**
@@ -364,6 +357,26 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		echo $this->get_teaser($instance);
 	}
 
+	/**
+	 * Get widget permalink
+	 *
+	 * @return string
+	 */
+	public function get_permalink($instance)
+	{
+		return get_permalink();
+	}
+
+	/**
+	 * Print widget permalink
+	 *
+	 * @return void
+	 */
+	public function the_permalink($instance)
+	{
+		the_permalink();
+	}
+
 	/*--------------------------------------------------*/
 	/* Public Functions
 	/*--------------------------------------------------*/
@@ -431,7 +444,6 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		
 		// get the registered post types
 		$this->post_types = get_post_types(array('public' => true), 'objects');
-		$this->post_types_names  = get_post_types(array('public' => true), 'names');
 		
 		// get the registered image sizes
 		$this->thumb_sizes = get_intermediate_image_sizes();
