@@ -120,14 +120,14 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function __construct() 
 	{
 		// load plugin text domain
-		add_action( 'init', array( $this, 'widget_textdomain' ) );
+		add_action('init', array($this, 'widget_textdomain'));
 
-		// The widget contrstructor
+		// The widget constructor
 		parent::__construct(
 			$this->get_widget_slug(),
 			__('Post Teaser', $this->get_widget_text_domain()),
 			array(
-				//'classname'   => $this->get_widget_slug(),
+				'classname' => $this->get_widget_text_domain(),
 				'teaser' => __('Display posts as widget items.', $this->get_widget_text_domain()),
 			)
 		);
@@ -143,9 +143,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Return the widget slug.
 	 *
-	 * @since    1.0.0
+	 * @since  1.0.0
 	 *
-	 * @return    Plugin slug variable.
+	 * @return string - Plugin slug variable.
 	 */
 	public function get_widget_slug() 
 	{
@@ -155,9 +155,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Return the widget text domain.
 	 *
-	 * @since    1.0.0
+	 * @since  1.0.0
 	 *
-	 * @return    Plugin text domain variable.
+	 * @return string - Plugin text domain variable.
 	 */
 	public function get_widget_text_domain() 
 	{
@@ -167,9 +167,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Return the plugin version.
 	 *
-	 * @since    1.0.0
+	 * @since  1.0.0
 	 *
-	 * @return    Plugin version variable.
+	 * @return string - Plugin version variable.
 	 */
 	public function get_plugin_version() 
 	{
@@ -186,8 +186,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::widget()
 	 *
-	 * @param array args  The array of form elements
-	 * @param array instance The current instance of the widget
+	 * @param  array $args - The array of form elements
+	 * @param  array $instance - The current instance of the widget
+	 * @return void
 	 */
 	public function widget($args, $instance) 
 	{
@@ -203,10 +204,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::update()
 	 *
-	 * @param array $new_instance Values just sent to be saved.
-	 * @param array $old_instance Previously saved values from database.
-	 *
-	 * @return array Updated safe values to be saved.
+	 * @param  array $new_instance - Values just sent to be saved.
+	 * @param  array $old_instance - Previously saved values from database.
+	 * @return array - Updated safe values to be saved.
 	 */
 	public function update($new_instance, $old_instance) 
 	{
@@ -231,7 +231,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
 	 * @see WP_Widget::form()
 	 *
-	 * @param array $instance Previously saved values from database.
+	 * @param array $instance - Previously saved values from database.
 	 */
 	public function form($instance) 
 	{
@@ -248,8 +248,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * by Matt Wiebe at Modern Tribe, Inc.
 	 * http://wordpress.org/extend/plugins/image-widget/
 	 * 
-	 * @param  string $template template file to search for
-	 * @param  string $post_type null|'none'|{post_type}
+	 * @param  string $template - template file to search for
+	 * @param  string $post_type
 	 * @return string - with template path
 	 **/
 	protected function get_template($template, $post_type) 
@@ -296,6 +296,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Query posts by slug
 	 *
+     * @since  1.0.0
+     *
+     * @param  string  $post_type 
+     * @param  string  $post_slug 
 	 * @return WP_Query
 	 */
 	public function query_post($post_type, $post_slug)
@@ -320,6 +324,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Check for widget title
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return bool
 	 */
 	public function has_title(&$instance)
@@ -330,6 +337,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Print widget title
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return void
 	 */
 	public function the_title(&$instance)
@@ -340,6 +350,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Print widget title attribute
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return void
 	 */
 	public function the_title_attribute(&$instance)
@@ -350,6 +363,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Check for widget teaser
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return bool
 	 */
 	public function has_teaser(&$instance)
@@ -360,6 +376,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Print widget teaser
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return void
 	 */
 	public function the_teaser(&$instance)
@@ -370,6 +389,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Print widget permalink
 	 *
+     * @since  1.0.0
+     *
+     * @param  array $instance 
 	 * @return void
 	 */
 	public function the_permalink($instance)
@@ -384,7 +406,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Loads the Widget's text domain for localization and translation.
 	 *
-     * @since 1.0.0
+     * @since  1.0.0
      *
      * @return void
  	 */
@@ -396,7 +418,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Registers and enqueues admin-specific styles.
 	 *
-     * @since 1.0.0
+     * @since  1.0.0
      *
      * @return void
  	 */
@@ -413,7 +435,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
 	 * Registers and enqueues admin-specific JavaScript.
 	 *
-     * @since 1.0.0
+     * @since  1.0.0
      *
      * @return void
  	 */
@@ -436,7 +458,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
      * Setup a number of default variables used throughout the plugin
      *
-     * @since 1.0.0
+     * @since  1.0.0
      *
      * @return void
      */
