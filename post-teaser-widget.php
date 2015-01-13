@@ -196,7 +196,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['post_type'] = apply_filters($this->get_widget_slug() . '_post_type', $instance['post_type'], $args, $instance);
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
-		include ($this->get_template('widget', $instance['post_type']));
+		include ($this->get_template('widget', $instance['post_type'], $instance['post_slug']));
     }
 
     /**
@@ -235,7 +235,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function form($instance) 
 	{
-		include ($this->get_template('widget-admin', 'none'));
+		include ($this->get_template('widget-admin', null, null));
 	}
 
 	/**
@@ -252,7 +252,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * @param  string $post_type
 	 * @return string - with template path
 	 **/
-	protected function get_template($template, $post_type) 
+	protected function get_template($template, $post_type, $post_slug=null) 
 	{
 		// whether or not .php was added
 		$template_slug = rtrim($template, '.php');
@@ -262,12 +262,18 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$file = 'views/' . $template;
 
 		// look for a custom version
+		$widgetThemeTemplates = array();
 		$widgetThemePath = 'plugins/' . $this->get_widget_text_domain() . '/';
-		$widgetThemeTemplates = array($widgetThemePath . $template);
-		if (!empty($post_type) && $post_type != 'none')
+		if (!empty($post_type) && $post_type == 'page' && !empty($post_slug))
+		{
+			$template_slug = str_replace(array('/', '\\'), '-', $post_slug);
+			$widgetThemeTemplates[] = $widgetThemePath . $template_slug . '-' . $template_slug . '.php';
+		}
+		if (!empty($post_type) && $post_type != 'post')
 		{
 			$widgetThemeTemplates[] = $widgetThemePath . $template_slug . '-' . $post_type . '.php';
 		}
+		$widgetThemeTemplates[] = $widgetThemePath . $template;
 		if ($theme_file = locate_template($widgetThemeTemplates))
 		{
 			$file = $theme_file;
