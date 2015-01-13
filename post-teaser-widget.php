@@ -7,12 +7,12 @@
  * @package   DPT_Post_Teaser_Widget
  * @author    Wilfried Reiter <wilfried.reiter@devpoint.at>
  * @license   GPL-2.0+
- * @link      http://wordpress.org/extend/plugins/flexible-posts-widget
+ * @link      http://wordpress.org/extend/plugins/post-teaser-widget
  * @copyright 2015 Wilfried Reiter
  *
  * @post-teaser-widget
  * Plugin Name:       Post Teaser Widget
- * Plugin URI:        http://wordpress.org/extend/plugins/flexible-posts-widget
+ * Plugin URI:        http://wordpress.org/extend/plugins/post-teaser-widget
  * Description:       An advanced posts display widget with many options: get posts by post type and taxonomy & term or by post ID; sorting & ordering; feature images; custom templates and more.
  * Version:           1.0.ß
  * Author:            willriderat
@@ -199,7 +199,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function widget($args, $instance) 
 	{
 		$instance['title'] = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']);
-		$instance['post_type'] = 'page';
+		$instance['post_type'] = apply_filters($this->get_widget_slug() . '_post_type', $instance['post_type'], $args, $instance);
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
 		include ($this->get_template('widget', 'none'));
@@ -220,6 +220,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance = $old_instance;
 		$new_instance = wp_parse_args((array)$new_instance, self::get_defaults());
 		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['post_type'] = strip_tags($new_instance['post_type']);
 		$instance['post_slug'] = strip_tags($new_instance['post_slug']);
 		if (current_user_can('unfiltered_html')) 
 		{
@@ -241,15 +242,14 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function form($instance) 
 	{
-		$instance['post_type'] = 'page';
 		include ($this->get_template('widget-admin', 'none'));
 	}
 
 	/**
 	 * Loads theme files in appropriate hierarchy:
 	 * 1. child theme 2. parent theme 3. plugin resources.
-	 * Will look in the flexible-posts-widget/ directory in a theme
-	 * and the views/ directory in the plugin
+	 * Will look in the plugins/post-teaser-widget directory in a theme
+	 * and the views directory in the plugin
 	 *
 	 * Based on a function in the amazing image-widget
 	 * by Matt Wiebe at Modern Tribe, Inc.
@@ -259,7 +259,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * @param  string $post_type null|'none'|{post_type}
 	 * @return string - with template path
 	 **/
-	public function get_template($template, $post_type=null) 
+	protected function get_template($template, $post_type) 
 	{
 		// whether or not .php was added
 		$template_slug = rtrim($template, '.php');
@@ -296,28 +296,72 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		return $defaults;
 	}
 
+	/*--------------------------------------------------*/
+	/* Template functions
+	/*--------------------------------------------------*/
+
 	/**
 	 * Query posts by slug
 	 *
 	 * @return WP_Query
 	 */
-	public function query_post($post_type, $slug)
+	public function query_post($post_type, $post_slug)
 	{
 		$slugKey = null;
 		$args = array('post_type' => $post_type);
 		if ($post_type == 'page')
 		{
-			$slugKey = is_numeric($slug) ? 'page_id' : 'pagename';
+			$slugKey = is_numeric($post_slug) ? 'page_id' : 'pagename';
 		}
 		else
 		{
-			$slugKey = is_numeric($slug) ? 'p' : 'name';
+			$slugKey = is_numeric($post_slug) ? 'p' : 'name';
 		}
 		if (!empty($slugKey))
 		{
-			$args[$slugKey] = $slug;
+			$args[$slugKey] = $post_slug;
 		}
 		return new WP_Query($args);
+	}
+
+	/**
+	 * Get widget title
+	 *
+	 * @return string
+	 */
+	public function get_title($instance)
+	{
+		return $instance['title'];
+	}
+
+	/**
+	 * Print widget title
+	 *
+	 * @return void
+	 */
+	public function the_title($instance)
+	{
+		echo $this->get_title($instance);
+	}
+
+	/**
+	 * Get widget teaser
+	 *
+	 * @return string
+	 */
+	public function get_teaser($instance)
+	{
+		return $instance['teaser'];
+	}
+
+	/**
+	 * Print widget teaser
+	 *
+	 * @return void
+	 */
+	public function the_teaser($instance)
+	{
+		echo $this->get_teaser($instance);
 	}
 
 	/*--------------------------------------------------*/

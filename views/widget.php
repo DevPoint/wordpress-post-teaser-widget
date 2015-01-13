@@ -16,9 +16,9 @@ echo $args['before_widget'];
 <?php if ($post_query->have_posts()) : ?>
 <?php while ($post_query->have_posts()) : $post_query->the_post(); ?>
 
-<?php if ( !empty($instance['title']) ) : ?>
+<?php if (!empty($instance['title'])) : ?>
 <?php echo $args['before_title']; ?>
-<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $instance['title']; ?></a>;
+<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php $this->the_title($instance); ?></a>;
 <?php echo $args['after_title']; ?>
 <?php endif; ?>
 
@@ -28,7 +28,7 @@ echo $args['before_widget'];
 </figure>
 <?php endif; ?>
 <div class="pt-widget-teaser">
-<?php echo $instance['teaser']; ?>
+<?php $this->the_teaser($instance); ?>
 </div>
 
 <?php endwhile; ?>

@@ -13,6 +13,15 @@ if ( !defined( 'ABSPATH' ) )
 	<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $instance['title']; ?>" />
 </p>
 <p>
+	<label for="<?php echo $this->get_field_id('post_type'); ?>"><?php _e('Post Type:', $this->get_widget_text_domain()); ?></label> 
+	<select class="widefat" id="<?php echo $this->get_field_id('post_type'); ?>" name="<?php echo $this->get_field_name('post_type'); ?>">
+	<?php foreach ($this->post_types as $post_type) : ?>
+	<?php $selected_str = ($post_type->name == $instance['post_type']) ? ' selected="selected"' : ''; ?>
+	<option value="<?php echo $post_type->name;?>"<?php echo $selected_str;?> ><?php echo $post_type->label;?></option>
+	<?php endforeach; ?>
+	</select>
+</p>
+<p>
 	<label for="<?php echo $this->get_field_id('post_slug'); ?>"><?php _e('Permalink:', $this->get_widget_text_domain()); ?></label> 
 	<input class="widefat" id="<?php echo $this->get_field_id('post_slug'); ?>" name="<?php echo $this->get_field_name('post_slug'); ?>" type="text" value="<?php echo $instance['post_slug']; ?>" />
 </p>
