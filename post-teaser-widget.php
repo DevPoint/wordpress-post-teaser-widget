@@ -250,9 +250,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * 
 	 * @param  string $template - template file to search for
 	 * @param  string $post_type
+	 * @param  string $post_slug
 	 * @return string - with template path
 	 **/
-	protected function get_template($template, $post_type, $post_slug=null) 
+	protected function get_template($template, $post_type, $post_slug) 
 	{
 		// whether or not .php was added
 		$template_slug = rtrim($template, '.php');
