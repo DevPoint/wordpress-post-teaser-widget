@@ -21,7 +21,6 @@ echo $args['before_widget'];
 <a href="<?php $this->the_permalink($instance); ?>" title="<?php the_title_attribute(); ?>"><?php $this->the_title($instance); ?></a>;
 <?php echo $args['after_title']; ?>
 <?php endif; ?>
-
 <?php if (has_post_thumbnail()) : ?>
 <figure class="pt-widget-image">
 <a href="<?php $this->the_permalink($instance); ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('medium'); ?></a>
