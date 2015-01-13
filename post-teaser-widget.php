@@ -132,7 +132,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		// The widget contrstructor
 		parent::__construct(
 			$this->get_widget_slug(),
-			__('Post Teaser Widget', $this->get_widget_text_domain()),
+			__('Post Teaser', $this->get_widget_text_domain()),
 			array(
 				//'classname'   => $this->get_widget_slug(),
 				'teaser' => __('Display posts as widget items.', $this->get_widget_text_domain()),
@@ -199,7 +199,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function widget($args, $instance) 
 	{
 		$instance['title'] = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']);
-		$instance['post_alias'] = apply_filters($this->get_widget_slug() . '_post_alias', $instance['post_alias'], $args, $instance);
+		$instance['post_type'] = 'page';
+		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
 		include ($this->get_template('widget', 'none'));
     }
@@ -219,7 +220,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance = $old_instance;
 		$new_instance = wp_parse_args((array)$new_instance, self::get_defaults());
 		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['post_alias'] = strip_tags($new_instance['post_alias']);
+		$instance['post_slug'] = strip_tags($new_instance['post_slug']);
 		if (current_user_can('unfiltered_html')) 
 		{
 			$instance['teaser'] = $new_instance['teaser'];
@@ -240,6 +241,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function form($instance) 
 	{
+		$instance['post_type'] = 'page';
 		include ($this->get_template('widget-admin', 'none'));
 	}
 
@@ -289,15 +291,33 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$defaults = array(
 			'title' => '',
 			'teaser' => '',
-			'post_alias' => ''
+			'post_slug' => ''
 		);
 		return $defaults;
 	}
 
-	public function load_post($post_alias, $post_type)
+	/**
+	 * Query posts by slug
+	 *
+	 * @return WP_Query
+	 */
+	public function query_post($post_type, $slug)
 	{
-
-		wp_reset_post_data();
+		$slugKey = null;
+		$args = array('post_type' => $post_type);
+		if ($post_type == 'page')
+		{
+			$slugKey = is_numeric($slug) ? 'page_id' : 'pagename';
+		}
+		else
+		{
+			$slugKey = is_numeric($slug) ? 'p' : 'name';
+		}
+		if (!empty($slugKey))
+		{
+			$args[$slugKey] = $slug;
+		}
+		return new WP_Query($args);
 	}
 
 	/*--------------------------------------------------*/

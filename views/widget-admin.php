@@ -13,8 +13,8 @@ if ( !defined( 'ABSPATH' ) )
 	<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $instance['title']; ?>" />
 </p>
 <p>
-	<label for="<?php echo $this->get_field_id('post_alias'); ?>"><?php _e('Post Alias:', $this->get_widget_text_domain()); ?></label> 
-	<input class="widefat" id="<?php echo $this->get_field_id('post_alias'); ?>" name="<?php echo $this->get_field_name('post_alias'); ?>" type="text" value="<?php echo $instance['post_alias']; ?>" />
+	<label for="<?php echo $this->get_field_id('post_slug'); ?>"><?php _e('Permalink:', $this->get_widget_text_domain()); ?></label> 
+	<input class="widefat" id="<?php echo $this->get_field_id('post_slug'); ?>" name="<?php echo $this->get_field_name('post_slug'); ?>" type="text" value="<?php echo $instance['post_slug']; ?>" />
 </p>
 <p>
 	<label for="<?php echo $this->get_field_id('teaser'); ?>"><?php _e('Teaser:', $this->get_widget_text_domain()); ?></label> 
