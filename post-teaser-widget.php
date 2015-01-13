@@ -287,9 +287,17 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	private static function get_defaults() 
 	{
 		$defaults = array(
-			'title' => ''
+			'title' => '',
+			'teaser' => '',
+			'post_alias' => ''
 		);
 		return $defaults;
+	}
+
+	public function load_post($post_alias, $post_type)
+	{
+
+		wp_reset_post_data();
 	}
 
 	/*--------------------------------------------------*/
@@ -298,20 +306,28 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 
 	/**
 	 * Loads the Widget's text domain for localization and translation.
-	 */
-	public function widget_textdomain() 
+	 *
+     * @since 1.0.0
+     *
+     * @return void
+ 	 */
+ 	public function widget_textdomain() 
 	{
 		load_plugin_textdomain( $this->get_widget_text_domain(), false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
 	 * Registers and enqueues admin-specific styles.
-	 */
+	 *
+     * @since 1.0.0
+     *
+     * @return void
+ 	 */
 	public function register_admin_styles() 
 	{
 		wp_enqueue_style(
 			$this->get_widget_slug() . '-admin',
-			plugins_url( 'css/admin.css', __FILE__ ),
+			plugins_url('css/admin.css', __FILE__),
 			array(),
 			$this->get_plugin_version()
 		);
@@ -319,7 +335,11 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 
 	/**
 	 * Registers and enqueues admin-specific JavaScript.
-	 */
+	 *
+     * @since 1.0.0
+     *
+     * @return void
+ 	 */
 	public function register_admin_scripts() 
 	{
 		$source = 'js/admin.min.js';
@@ -327,7 +347,6 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		{
 			$source = 'js/admin.js';
 		}
-		
 		wp_enqueue_script(
 			$this->get_widget_slug() . '-admin',
 			plugins_url( $source, __FILE__ ),
@@ -340,8 +359,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/**
      * Setup a number of default variables used throughout the plugin
      *
-     * Since 3.3.1
+     * @since 1.0.0
      *
+     * @return void
      */
 	public function setup_defaults() {
 		
