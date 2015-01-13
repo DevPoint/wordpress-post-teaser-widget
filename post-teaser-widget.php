@@ -318,33 +318,23 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Get widget title
-	 *
-	 * @return string
-	 */
-	public function get_title($instance)
-	{
-		return $instance['title'];
-	}
-
-	/**
 	 * Print widget title
 	 *
 	 * @return void
 	 */
 	public function the_title($instance)
 	{
-		echo $this->get_title($instance);
+		echo $instance['title'];
 	}
 
 	/**
-	 * Get widget teaser
+	 * Print widget title attribute
 	 *
-	 * @return string
+	 * @return void
 	 */
-	public function get_teaser($instance)
+	public function the_title_attribute($instance)
 	{
-		return $instance['teaser'];
+		the_title_attribute();
 	}
 
 	/**
@@ -354,17 +344,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function the_teaser($instance)
 	{
-		echo $this->get_teaser($instance);
-	}
-
-	/**
-	 * Get widget permalink
-	 *
-	 * @return string
-	 */
-	public function get_permalink($instance)
-	{
-		return get_permalink();
+		echo $instance['teaser'];
 	}
 
 	/**
