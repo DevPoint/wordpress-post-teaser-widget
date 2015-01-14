@@ -238,7 +238,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function form($instance) 
 	{
 		include ($this->get_template('widget-admin', null, null));
-		include ('views/widget-admin.js.php');
+		//include ('views/widget-admin.js.php');
 	}
 
 	/**

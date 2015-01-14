@@ -30,10 +30,6 @@ if ( !defined( 'ABSPATH' ) )
 	<textarea class="widefat" id="<?php echo $this->get_field_id('teaser');?>" name="<?php echo $this->get_field_name('teaser');?>" cols="20" rows="4" ><?php echo format_to_edit($instance['teaser']); ?></textarea>
 </p>
 <p>
-	<input class="widefat" id="<?php echo $this->get_field_id('teaser_invisible');?>" name="<?php echo $this->get_field_name('teaser_invisible');?>" type="checkbox"<?php echo !empty($instance['teaser_invisible']) ? ' checked="checked"':'';?> />
-	<label for="<?php echo $this->get_field_id('teaser_invisible');?>"><?php _e('Hide Teaser', $this->get_widget_text_domain()); ?></label> 
-</p>
-<p>
 	<label for="<?php echo $this->get_field_id('thumbnail_pos');?>"><?php _e('Image Position:', $this->get_widget_text_domain()); ?></label> 
 	<select class="widefat" id="<?php echo $this->get_field_id('thumbnail_pos');?>" name="<?php echo $this->get_field_name('thumbnail_pos');?>">
 	<?php foreach ($this->get_thumbnail_pos_list() as &$thumbnail_pos) : ?>

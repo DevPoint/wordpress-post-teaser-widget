@@ -14,11 +14,11 @@ if ( !defined( 'ABSPATH' ) )
 		$teaserParent = $("#<?php echo $this->get_field_id('teaser');?>").parent();
 		if ($(this).is(':checked')) 
 		{
-			$teaserParent.slideUp();
+			$teaserParent.hide();
         }
         else 
         {
-			$teaserParent.slideDown();
+			$teaserParent.show();
         }	
 	});
 })(jQuery);	
