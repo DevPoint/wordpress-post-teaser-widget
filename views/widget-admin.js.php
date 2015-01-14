@@ -9,8 +9,17 @@ if ( !defined( 'ABSPATH' ) )
 ?>
 
 <script type="text/javascript">
-<?php $widget_id_string = $this->get_field_id(''); ?>
-jQuery(document).ready(function($) {
-	var test = "<?php echo $widget_id_string;?>";
-}
+(function($) {
+	$("#<?php echo $this->get_field_id('teaser_invisible');?>").change(function() {
+		$teaserParent = $("#<?php echo $this->get_field_id('teaser');?>").parent();
+		if ($(this).is(':checked')) 
+		{
+			$teaserParent.slideUp();
+        }
+        else 
+        {
+			$teaserParent.slideDown();
+        }	
+	});
+})(jQuery);	
 </script>
