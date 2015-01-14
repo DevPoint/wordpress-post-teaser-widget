@@ -79,7 +79,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @var      string
      */
-    protected $widget_slug = 'dpt_pt_widget';
+    protected $widget_slug = 'dpt-pt-widget';
     
     /**
      * Unique identifier for your widget.
@@ -126,8 +126,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 			$this->get_widget_slug(),
 			__('Post Teaser', $this->get_widget_text_domain()),
 			array(
-				'classname' => $this->get_widget_text_domain(),
-				'teaser' => __('Display posts as widget items.', $this->get_widget_text_domain()),
+				'class' => $this->get_widget_text_domain(),
+				'description' => __('Teaser of a post using its featured image.', $this->get_widget_text_domain()),
 			)
 		);
 		
@@ -238,6 +238,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function form($instance) 
 	{
 		include ($this->get_template('widget-admin', null, null));
+		include ('views/widget-admin.js.php');
 	}
 
 	/**
@@ -465,14 +466,17 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @return void
  	 */
-	public function register_admin_styles() 
+	public function register_admin_styles($hook) 
 	{
-		wp_enqueue_style(
-			$this->get_widget_slug() . '-admin',
-			plugins_url('css/admin.css', __FILE__),
-			array(),
-			$this->get_plugin_version()
-		);
+		if ('widgets.php' == $hook) 
+		{
+			wp_enqueue_style(
+				$this->get_widget_slug() . '-admin',
+				plugins_url('css/admin.css', __FILE__),
+				array(),
+				$this->get_plugin_version()
+			);
+    	}
 	}
 
 	/**
@@ -480,24 +484,28 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
      * @since  1.0.0
      *
+     * @param  string $hook
      * @return void
  	 */
-	public function register_admin_scripts() 
+	public function register_admin_scripts($hook) 
 	{
-		$source = 'js/admin.min.js';
-		if (SCRIPT_DEBUG) 
+		if ('widgets.php' == $hook) 
 		{
-			$source = 'js/admin.js';
+			$source = 'js/admin.min.js';
+			if (SCRIPT_DEBUG) 
+			{
+				$source = 'js/admin.js';
+			}
+			wp_enqueue_script(
+				$this->get_widget_slug() . '-admin',
+				plugins_url( $source, __FILE__ ),
+				array(),
+				$this->get_plugin_version(),
+				true
+			);
 		}
-		wp_enqueue_script(
-			$this->get_widget_slug() . '-admin',
-			plugins_url( $source, __FILE__ ),
-			array(),
-			$this->get_plugin_version(),
-			true
-		);
 	}
-	
+
 	/**
      * Setup a number of default variables used throughout the plugin
      *
