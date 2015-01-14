@@ -106,8 +106,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @var array - of strings
 	 */
-	protected $thumb_sizes;
-
+	protected $thumbnail_sizes;
 
 	/*--------------------------------------------------*/
 	/* Constructor
@@ -196,6 +195,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['post_type'] = apply_filters($this->get_widget_slug() . '_post_type', $instance['post_type'], $args, $instance);
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
+		$instance['thumbnail_pos'] = apply_filters($this->get_widget_slug() . '_thumbnail_pos', $instance['thumbnail_pos'], $args, $instance);
 		include ($this->get_template('widget', $instance['post_type'], $instance['post_slug']));
     }
 
@@ -215,6 +215,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['post_type'] = strip_tags($new_instance['post_type']);
 		$instance['post_slug'] = strip_tags($new_instance['post_slug']);
+		$instance['thumbnail_pos'] = strip_tags($new_instance['thumbnail_pos']);
+		$instance['teaser_invisible'] = strip_tags($new_instance['teaser_invisible']);
 		if (current_user_can('unfiltered_html')) 
 		{
 			$instance['teaser'] = $new_instance['teaser'];
@@ -267,8 +269,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$widgetThemePath = 'plugins/' . $this->get_widget_text_domain() . '/';
 		if (!empty($post_type) && $post_type == 'page' && !empty($post_slug))
 		{
-			$template_slug = str_replace(array('/', '\\'), '-', $post_slug);
-			$widgetThemeTemplates[] = $widgetThemePath . $template_slug . '-' . $template_slug . '.php';
+			$page_name = str_replace(array('/', '\\'), '-', $post_slug);
+			$widgetThemeTemplates[] = $widgetThemePath . $template_slug . '-' . $page_name . '.php';
 		}
 		if (!empty($post_type) && $post_type != 'post')
 		{
@@ -291,7 +293,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$defaults = array(
 			'title' => '',
 			'teaser' => '',
-			'post_slug' => ''
+			'teaser_invisible' => '',
+			'post_type' => 'post',
+			'post_slug' => '',
+			'thumbnail_pos' => 'middle'
 		);
 		return $defaults;
 	}
@@ -377,7 +382,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function has_teaser(&$instance)
 	{
-		return !empty($instance['teaser']);
+		return empty($instance['teaser_invisible']) && !empty($instance['teaser']);
 	}
 
 	/**
@@ -401,9 +406,40 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      * @param  array $instance 
 	 * @return void
 	 */
-	public function the_permalink($instance)
+	public function the_permalink(&$instance)
 	{
 		the_permalink();
+	}
+
+	/**
+	 * Compare with widget thumbnail position
+	 *
+     * @since  1.0.0
+     *
+     * @param  array  $instance 
+     * @param  string $position - top|middle|bottom
+	 * @return void
+	 */
+	public function is_thumbnail_pos(&$instance, $position)
+	{
+		return ($position == (!empty($instance['thumbnail_pos']) ? $instance['thumbnail_pos'] : 'middle'));
+	}
+
+	/**
+	 * Retrieve available widget thumbnail position
+	 *
+     * @since  1.0.0
+     *
+     * @return array - with thumb_pos[name,label]
+	 */
+	public function get_thumbnail_pos_list()
+	{
+		$thumbnail_positions = array(
+			array('name' => 'top', 'label' => 'top'),
+			array('name' => 'middle', 'label' => 'middle'),
+			array('name' => 'hidden', 'label' => '[hidden]'));
+		$thumbnail_positions = apply_filters($this->get_widget_slug() . '_thumbnail_pos_list', $thumbnail_positions);
+		return $thumbnail_positions;
 	}
 
 	/*--------------------------------------------------*/
@@ -475,7 +511,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$this->post_types = get_post_types(array('public' => true), 'objects');
 		
 		// get the registered image sizes
-		$this->thumb_sizes = get_intermediate_image_sizes();
+		$this->thumbnail_sizes = get_intermediate_image_sizes();
 	}
 }
 
