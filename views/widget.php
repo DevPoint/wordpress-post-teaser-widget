@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) die('-1');
 
 <?php echo $args['before_widget']; ?>
 
-<?php $post_query = $this->query_post($instance['post_type'], $instance['post_slug']); ?>
+<?php $post_query = $this->query_post($instance); ?>
 <?php if ($post_query->have_posts()) : ?>
 <?php while ($post_query->have_posts()) : $post_query->the_post(); ?>
 

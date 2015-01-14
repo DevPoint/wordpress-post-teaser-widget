@@ -305,25 +305,25 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 *
      * @since  1.0.0
      *
-     * @param  string  $post_type 
-     * @param  string  $post_slug 
+     * @param  array $instance 
 	 * @return WP_Query
 	 */
-	public function query_post($post_type, $post_slug)
+	public function query_post(&$instance)
 	{
 		$slugKey = null;
-		$args = array('post_type' => $post_type);
-		if ($post_type == 'page')
+		$slug = $instance['post_slug'];
+		$args = array('post_type' => $instance['post_type']);
+		if ($instance['post_type'] == 'page')
 		{
-			$slugKey = is_numeric($post_slug) ? 'page_id' : 'pagename';
+			$slugKey = is_numeric($slug) ? 'page_id' : 'pagename';
 		}
 		else
 		{
-			$slugKey = is_numeric($post_slug) ? 'p' : 'name';
+			$slugKey = is_numeric($slug) ? 'p' : 'name';
 		}
 		if (!empty($slugKey))
 		{
-			$args[$slugKey] = $post_slug;
+			$args[$slugKey] = $slug;
 		}
 		return new WP_Query($args);
 	}
