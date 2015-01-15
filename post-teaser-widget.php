@@ -79,7 +79,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @var      string
      */
-    protected $widget_slug = 'dpt-pt-widget';
+    protected $widget_slug = 'dpt-post-teaser-widget';
     
     /**
      * Unique identifier for your widget.
@@ -126,8 +126,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 			$this->get_widget_slug(),
 			__('Post Teaser', $this->get_widget_text_domain()),
 			array(
-				'class' => $this->get_widget_text_domain(),
 				'description' => __('Teaser of a post using its featured image.', $this->get_widget_text_domain()),
+				'classname' => $this->get_widget_text_domain(),
 			)
 		);
 		
