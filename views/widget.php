@@ -43,6 +43,8 @@ if (!defined('ABSPATH')) die('-1');
 
 <?php endwhile; ?>
 <?php wp_reset_postdata(); ?>
+<?php else : ?>
+<div class="pt-widget-teaser"><?php _e('Dieser Eintrag ist leider nicht vorhanden!', $this->get_widget_text_domain()); ?></div>
 <?php endif; ?>
 
 <?php echo $args['after_widget']; ?>
