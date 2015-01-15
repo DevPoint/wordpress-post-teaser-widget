@@ -38,3 +38,19 @@ if ( !defined( 'ABSPATH' ) )
 	<?php endforeach; ?>
 	</select>
 </p>
+<?php $custom_template_list = $this->get_custom_template_list(); ?>
+<?php if (!empty($custom_template_list)) : ?>
+<p>
+	<label for="<?php echo $this->get_field_id('template');?>"><?php _e('Template:', $this->get_widget_text_domain()); ?></label> 
+	<select class="widefat" id="<?php echo $this->get_field_id('template');?>" name="<?php echo $this->get_field_name('template');?>">
+	<?php $selected_str = ($this->is_template($instance, 'default')) ? ' selected="selected"' : ''; ?>
+	<option value="default"<?php echo $selected_str;?> ><?php _e('default', $this->get_widget_text_domain()); ?></option>
+	<?php foreach ($custom_template_list as &$template) : ?>
+	<?php $selected_str = ($this->is_template($instance, $template['name'])) ? ' selected="selected"' : ''; ?>
+	<option value="<?php echo $template['name'];?>"<?php echo $selected_str;?> ><?php echo $template['label'];?></option>
+	<?php endforeach; ?>
+	</select>
+</p>
+<?php else : ?>
+<input id="<?php echo $this->get_field_id('template'); ?>" name="<?php echo $this->get_field_name('template');?>" type="hidden" value="default" />
+<?php endif; ?>

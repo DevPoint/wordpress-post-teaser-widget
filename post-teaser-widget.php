@@ -196,7 +196,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
 		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
 		$instance['thumbnail_pos'] = apply_filters($this->get_widget_slug() . '_thumbnail_pos', $instance['thumbnail_pos'], $args, $instance);
-		include ($this->get_template('widget', $instance['post_type'], $instance['post_slug']));
+		include ($this->get_template('widget', $instance['post_type'], $instance['post_slug'], $instance['template']));
     }
 
     /**
@@ -216,7 +216,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$instance['post_type'] = strip_tags($new_instance['post_type']);
 		$instance['post_slug'] = strip_tags($new_instance['post_slug']);
 		$instance['thumbnail_pos'] = strip_tags($new_instance['thumbnail_pos']);
-		$instance['teaser_invisible'] = strip_tags($new_instance['teaser_invisible']);
+		$instance['template'] = strip_tags($new_instance['template']);
 		if (current_user_can('unfiltered_html')) 
 		{
 			$instance['teaser'] = $new_instance['teaser'];
@@ -237,7 +237,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function form($instance) 
 	{
-		include ($this->get_template('widget-admin', null, null));
+		include ($this->get_template('widget-admin', null, null, 'default'));
 		//include ('views/widget-admin.js.php');
 	}
 
@@ -256,7 +256,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * @param  string $post_slug
 	 * @return string - with template path
 	 **/
-	protected function get_template($template, $post_type, $post_slug) 
+	protected function get_template($template, $post_type, $post_slug, $custom_template) 
 	{
 		// whether or not .php was added
 		$template_slug = rtrim($template, '.php');
@@ -268,6 +268,11 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		// look for a custom version
 		$widgetThemeTemplates = array();
 		$widgetThemePath = 'plugins/' . $this->get_widget_text_domain() . '/';
+		if (!empty($custom_template) && $custom_template != 'default')
+		{
+			$custom_template_slug = rtrim($custom_template, '.php');
+			$widgetThemeTemplates[] = $widgetThemePath . $custom_template_slug . '.php';
+		}
 		if (!empty($post_type) && $post_type == 'page' && !empty($post_slug))
 		{
 			$page_name = str_replace(array('/', '\\'), '-', $post_slug);
@@ -294,10 +299,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		$defaults = array(
 			'title' => '',
 			'teaser' => '',
-			'teaser_invisible' => '',
 			'post_type' => 'post',
 			'post_slug' => '',
-			'thumbnail_pos' => 'middle'
+			'thumbnail_pos' => 'middle',
+			'template' => 'default'
 		);
 		return $defaults;
 	}
@@ -383,7 +388,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function has_teaser(&$instance)
 	{
-		return empty($instance['teaser_invisible']) && !empty($instance['teaser']);
+		return empty($instance['template']) && !empty($instance['teaser']);
 	}
 
 	/**
@@ -418,8 +423,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      * @since  1.0.0
      *
      * @param  array  $instance 
-     * @param  string $position - top|middle|bottom
-	 * @return void
+     * @param  string $position
+	 * @return bool
 	 */
 	public function is_thumbnail_pos(&$instance, $position)
 	{
@@ -441,6 +446,34 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 			array('name' => 'hidden', 'label' => '[hidden]'));
 		$thumbnail_positions = apply_filters($this->get_widget_slug() . '_thumbnail_pos_list', $thumbnail_positions);
 		return $thumbnail_positions;
+	}
+
+	/**
+	 * Compare with widget thumbnail template
+	 *
+     * @since  1.0.0
+     *
+     * @param  array  $instance 
+     * @param  string $template
+	 * @return bool
+	 */
+	public function is_template(&$instance, $template)
+	{
+		return ($template == (!empty($instance['template']) ? $instance['template'] : 'default'));
+	}
+
+	/**
+	 * Retrieve list with custum widget templates
+	 *
+     * @since  1.0.0
+     *
+     * @return array - with custom_template[name,label]
+	 */
+	public function get_custom_template_list()
+	{
+		$custom_templates = array();
+		$custom_templates = apply_filters($this->get_widget_slug() . '_template_list', $custom_templates);
+		return $custom_templates;
 	}
 
 	/*--------------------------------------------------*/
@@ -513,8 +546,8 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @return void
      */
-	public function setup_defaults() {
-		
+	public function setup_defaults() 
+	{
 		// get the registered post types
 		$this->post_types = get_post_types(array('public' => true), 'objects');
 		
