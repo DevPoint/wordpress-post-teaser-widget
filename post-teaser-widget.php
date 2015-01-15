@@ -254,6 +254,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 * @param  string $template - template file to search for
 	 * @param  string $post_type
 	 * @param  string $post_slug
+	 * @param  string $custom_template
 	 * @return string - with template path
 	 **/
 	protected function get_template($template, $post_type, $post_slug, $custom_template) 
@@ -489,7 +490,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
  	 */
  	public function widget_textdomain() 
 	{
-		load_plugin_textdomain( $this->get_widget_text_domain(), false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain(
+			$this->get_widget_text_domain(), 
+			false, 
+			dirname(plugin_basename( __FILE__ )) . '/languages/');
 	}
 
 	/**
@@ -503,12 +507,12 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	{
 		if ('widgets.php' == $hook) 
 		{
-			wp_enqueue_style(
-				$this->get_widget_slug() . '-admin',
-				plugins_url('css/admin.css', __FILE__),
-				array(),
-				$this->get_plugin_version()
-			);
+		//	wp_enqueue_style(
+		//		$this->get_widget_slug() . '-admin',
+		//		plugins_url('css/admin.css', __FILE__),
+		//		array(),
+		//		$this->get_plugin_version()
+		//	);
     	}
 	}
 
@@ -529,13 +533,13 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 			{
 				$source = 'js/admin.js';
 			}
-			wp_enqueue_script(
-				$this->get_widget_slug() . '-admin',
-				plugins_url( $source, __FILE__ ),
-				array(),
-				$this->get_plugin_version(),
-				true
-			);
+		//	wp_enqueue_script(
+		//		$this->get_widget_slug() . '-admin',
+		//		plugins_url( $source, __FILE__ ),
+		//		array(),
+		//		$this->get_plugin_version(),
+		//		true
+		//	);
 		}
 	}
 
