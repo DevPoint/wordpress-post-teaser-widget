@@ -14,14 +14,14 @@
  * Plugin Name:       Post Teaser Widget
  * Plugin URI:        http://wordpress.org/extend/plugins/post-teaser-widget
  * Description:       An advanced posts display widget with many options: get posts by post type and taxonomy & term or by post ID; sorting & ordering; feature images; custom templates and more.
- * Version:           1.0.ß
+ * Version:           1.0.0
  * Author:            willriderat
  * Author URI:        http://devpoint.at
  * Text Domain:       post-teaser-widget
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/devpoint/post-teaser-widget
+ * GitHub Plugin URI: https://github.com/devpoint/wordpress-post-teaser-widget
  */
 
 /**
