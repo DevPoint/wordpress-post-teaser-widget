@@ -118,8 +118,11 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function __construct() 
 	{
-		// load plugin text domain
-		add_action('init', array($this, 'widget_textdomain'));
+		// load translation
+		load_plugin_textdomain(
+			$this->get_widget_text_domain(), 
+			false,
+			basename(dirname(__FILE__)) . '/languages/');
 
 		// The widget constructor
 		parent::__construct(
@@ -480,21 +483,6 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/*--------------------------------------------------*/
 	/* Public Functions
 	/*--------------------------------------------------*/
-
-	/**
-	 * Loads the Widget's text domain for localization and translation.
-	 *
-     * @since  1.0.0
-     *
-     * @return void
- 	 */
- 	public function widget_textdomain() 
-	{
-		load_plugin_textdomain(
-			$this->get_widget_text_domain(), 
-			false, 
-			dirname(plugin_basename( __FILE__ )) . '/languages/');
-	}
 
 	/**
 	 * Registers and enqueues admin-specific styles.
