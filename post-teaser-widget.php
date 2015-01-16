@@ -79,7 +79,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @var      string
      */
-    protected $widget_slug = 'dpt-post-teaser-widget';
+    protected $widget_slug = 'dpt_post-teaser-widget';
     
     /**
      * Unique identifier for your widget.
