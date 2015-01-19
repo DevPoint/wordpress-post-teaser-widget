@@ -445,9 +445,9 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	public function get_thumbnail_pos_list()
 	{
 		$thumbnail_positions = array(
-			array('name' => 'top', 'label' => 'top'),
-			array('name' => 'middle', 'label' => 'middle'),
-			array('name' => 'hidden', 'label' => '[hidden]'));
+			array('name' => 'top', 'label' => __('top', $this->get_widget_text_domain())),
+			array('name' => 'middle', 'label' => __('middle', $this->get_widget_text_domain())),
+			array('name' => 'hide', 'label' => __('hide', $this->get_widget_text_domain())));
 		$thumbnail_positions = apply_filters($this->get_widget_slug() . '_thumbnail_pos_list', $thumbnail_positions);
 		return $thumbnail_positions;
 	}
