@@ -194,10 +194,10 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	 */
 	public function widget($args, $instance) 
 	{
-		$instance['title'] = apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']);
+		$instance['title'] = $this->_apply_text_filters(apply_filters('widget_title', empty($instance['title']) ? '' : $instance['title']));
 		$instance['post_type'] = apply_filters($this->get_widget_slug() . '_post_type', $instance['post_type'], $args, $instance);
 		$instance['post_slug'] = apply_filters($this->get_widget_slug() . '_post_slug', $instance['post_slug'], $args, $instance);
-		$instance['teaser'] = apply_filters('widget_text', $instance['teaser'], $args, $instance);
+		$instance['teaser'] = $this->_apply_text_filters(apply_filters('widget_text', $instance['teaser'], $args, $instance));
 		$instance['thumbnail_pos'] = apply_filters($this->get_widget_slug() . '_thumbnail_pos', $instance['thumbnail_pos'], $args, $instance);
 		include ($this->get_template('widget', $instance['post_type'], $instance['post_slug'], $instance['template']));
     }
@@ -545,6 +545,19 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 		
 		// get the registered image sizes
 		$this->thumbnail_sizes = get_intermediate_image_sizes();
+	}
+
+	/*--------------------------------------------------*/
+	/* Helper Functions
+	/*--------------------------------------------------*/
+
+	protected function _apply_text_filters($input)
+	{
+		if (!empty($input))
+		{
+			$input = str_replace('[-]', '&shy;', $input);
+		}
+		return $input;
 	}
 }
 
