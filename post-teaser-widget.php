@@ -68,7 +68,7 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
      *
      * @var      string
      */
-    protected $plugin_version = '1.0.0';
+    protected $plugin_version = '1.0.1';
 
     /**
      * Unique identifier for your widget.
