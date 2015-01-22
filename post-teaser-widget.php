@@ -551,6 +551,14 @@ class DPT_Post_Teaser_Widget extends WP_Widget {
 	/* Helper Functions
 	/*--------------------------------------------------*/
 
+	/**
+     * Apply internal text filters
+     *
+     * @since  1.0.0
+     *
+     * @param string
+     * @return string
+     */
 	protected function _apply_text_filters($input)
 	{
 		if (!empty($input))
