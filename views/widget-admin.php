@@ -17,7 +17,7 @@ if ( !defined( 'ABSPATH' ) )
 <p>
 	<label for="<?php echo $this->get_field_id('post_type');?>"><?php _e('Post Type:', $this->get_widget_text_domain()); ?></label> 
 	<select class="widefat" id="<?php echo $this->get_field_id('post_type');?>" name="<?php echo $this->get_field_name('post_type');?>">
-	<?php foreach ($this->post_types as &$post_type) : ?>
+	<?php foreach ($this->post_types as $post_type) : ?>
 	<?php $selected_str = ($post_type->name == $instance['post_type']) ? ' selected="selected"' : ''; ?>
 	<option value="<?php echo $post_type->name;?>"<?php echo $selected_str;?> ><?php echo $post_type->label;?></option>
 	<?php endforeach; ?>
@@ -34,7 +34,7 @@ if ( !defined( 'ABSPATH' ) )
 <p>
 	<label for="<?php echo $this->get_field_id('thumbnail_pos');?>"><?php _e('Image Position:', $this->get_widget_text_domain()); ?></label> 
 	<select class="widefat" id="<?php echo $this->get_field_id('thumbnail_pos');?>" name="<?php echo $this->get_field_name('thumbnail_pos');?>">
-	<?php foreach ($this->get_thumbnail_pos_list() as &$thumbnail_pos) : ?>
+	<?php foreach ($this->get_thumbnail_pos_list() as $thumbnail_pos) : ?>
 	<?php $selected_str = ($this->is_thumbnail_pos($instance, $thumbnail_pos['name'])) ? ' selected="selected"' : ''; ?>
 	<option value="<?php echo $thumbnail_pos['name'];?>"<?php echo $selected_str;?> ><?php echo $thumbnail_pos['label'];?></option>
 	<?php endforeach; ?>
@@ -47,7 +47,7 @@ if ( !defined( 'ABSPATH' ) )
 	<select class="widefat" id="<?php echo $this->get_field_id('template');?>" name="<?php echo $this->get_field_name('template');?>">
 	<?php $selected_str = ($this->is_template($instance, 'default')) ? ' selected="selected"' : ''; ?>
 	<option value="default"<?php echo $selected_str;?> ><?php _e('default', $this->get_widget_text_domain()); ?></option>
-	<?php foreach ($custom_template_list as &$template) : ?>
+	<?php foreach ($custom_template_list as $template) : ?>
 	<?php $selected_str = ($this->is_template($instance, $template['name'])) ? ' selected="selected"' : ''; ?>
 	<option value="<?php echo $template['name'];?>"<?php echo $selected_str;?> ><?php echo $template['label'];?></option>
 	<?php endforeach; ?>
